@@ -25,7 +25,8 @@ namespace WindowsFormsApp1
         private void button1_Click(object sender, EventArgs e)
         {
             Console.WriteLine("Taking a screenshot now...");
-            libs.TakeScreenshot("screenshot.bmp");
+            Bitmap bmp = libs.TakeScreenshot("screenshot.bmp");
+            libs.GetAverageColorInRegion(bmp);
             Console.WriteLine("\nDone! Press any key to exit...");
         }
     }

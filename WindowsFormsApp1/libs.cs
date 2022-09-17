@@ -38,7 +38,7 @@ namespace WindowsFormsApp1
             return allBlack;
         }
 
-        public unsafe uint[] GetAverageColorInRegion(Bitmap source)
+        public unsafe static uint[] GetAverageColorInRegion(Bitmap source)
         {
             
             var rectangle = new Rectangle(0, 0, source.Width, source.Height);
