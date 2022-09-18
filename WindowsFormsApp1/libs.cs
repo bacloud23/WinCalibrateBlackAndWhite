@@ -131,14 +131,14 @@ namespace WindowsFormsApp1
         }*/
 
 
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr GetDC(IntPtr hWnd);
 
         [DllImport("gdi32.dll")]
         public static extern bool SetDeviceGammaRamp(IntPtr hDC, ref RAMP lpRamp);
 
         [DllImport("gdi32.dll")]
-        public static extern int GetDeviceGammaRamp(IntPtr hDC, ref RAMP lpRamp);
+        public static extern bool GetDeviceGammaRamp(IntPtr hDC, ref RAMP lpRamp);
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
         public struct RAMP
@@ -176,8 +176,12 @@ namespace WindowsFormsApp1
         public static Color getScreenColor()
         {
             RAMP r = new RAMP();
-            GetDeviceGammaRamp(GetDC(IntPtr.Zero), ref r);
-            return Color.FromArgb(r.Red[1], r.Green[1], r.Blue[1]);
+            int overflow = 2;
+            bool success = GetDeviceGammaRamp(GetDC(IntPtr.Zero), ref r);
+
+            Console.WriteLine(success);
+
+            return Color.FromArgb(r.Red[0], r.Green[0], r.Blue[0]);
         }
 
 
