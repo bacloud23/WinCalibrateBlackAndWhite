@@ -35,6 +35,9 @@ namespace WindowsFormsApp1
             Panel1.BackColor = target;
             textBox2.Text = target.GetBrightness().ToString();
 
+            Color c = libs.getScreenColor();
+            Console.WriteLine(c.ToString());
+            libs.SetGamma(10);
             Console.WriteLine("\nDone! Press any key to exit...");
             
         }

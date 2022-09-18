@@ -12,7 +12,7 @@ namespace WindowsFormsApp1
 {
     internal class libs
     {
-        private bool IsBlankImage(Bitmap bmp)
+        /*private bool IsBlankImage(Bitmap bmp)
         {
             Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
             BitmapData bmpData = bmp.LockBits(rect, ImageLockMode.ReadWrite, bmp.PixelFormat);
@@ -36,11 +36,11 @@ namespace WindowsFormsApp1
             // Unlock the bits.
             bmp.UnlockBits(bmpData);
             return allBlack;
-        }
+        }*/
 
         public unsafe static uint[] GetAverageColorInRegion(Bitmap source)
         {
-            
+
             var rectangle = new Rectangle(0, 0, source.Width, source.Height);
             var region = rectangle;
             var bitmapData = source.LockBits(rectangle, ImageLockMode.ReadOnly, source.PixelFormat);
@@ -91,7 +91,7 @@ namespace WindowsFormsApp1
             return totals;
         }
 
-        public Color getDominantColor(System.Drawing.Bitmap bmp)
+        /*public Color getDominantColor(System.Drawing.Bitmap bmp)
         {
             BitmapData srcData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
@@ -128,6 +128,56 @@ namespace WindowsFormsApp1
             bmp.UnlockBits(srcData);
 
             return Color.FromArgb(avgR, avgG, avgB);
+        }*/
+
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetDC(IntPtr hWnd);
+
+        [DllImport("gdi32.dll")]
+        public static extern bool SetDeviceGammaRamp(IntPtr hDC, ref RAMP lpRamp);
+
+        [DllImport("gdi32.dll")]
+        public static extern int GetDeviceGammaRamp(IntPtr hDC, ref RAMP lpRamp);
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+        public struct RAMP
+        {
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+            public UInt16[] Red;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+            public UInt16[] Green;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+            public UInt16[] Blue;
+        }
+
+        public static void SetGamma(int gamma)
+        {
+            if (gamma <= 256 && gamma >= 1)
+            {
+                RAMP ramp = new RAMP();
+                ramp.Red = new ushort[256];
+                ramp.Green = new ushort[256];
+                ramp.Blue = new ushort[256];
+                for (int i = 1; i < 256; i++)
+                {
+                    int iArrayValue = i * (gamma + 128);
+
+                    if (iArrayValue > 65535)
+                        iArrayValue = 65535;
+                    ramp.Red[i] = ramp.Blue[i] = ramp.Green[i] = (ushort)iArrayValue;
+                }
+                SetDeviceGammaRamp(GetDC(IntPtr.Zero), ref ramp);
+            }
+        }
+
+
+
+        public static Color getScreenColor()
+        {
+            RAMP r = new RAMP();
+            GetDeviceGammaRamp(GetDC(IntPtr.Zero), ref r);
+            return Color.FromArgb(r.Red[1], r.Green[1], r.Blue[1]);
         }
 
 

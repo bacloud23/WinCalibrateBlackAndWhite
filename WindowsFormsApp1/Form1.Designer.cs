@@ -33,7 +33,7 @@ namespace WindowsFormsApp1
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.TextBox2 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button1
@@ -63,18 +63,18 @@ namespace WindowsFormsApp1
             // 
             // textBox2
             // 
-            this.TextBox2.Location = new System.Drawing.Point(58, 79);
-            this.TextBox2.Name = "textBox2";
-            this.TextBox2.Size = new System.Drawing.Size(75, 20);
-            this.TextBox2.TabIndex = 3;
-            this.TextBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            this.textBox2.Location = new System.Drawing.Point(58, 79);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(75, 20);
+            this.textBox2.TabIndex = 3;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(529, 142);
-            this.Controls.Add(this.TextBox2);
+            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
