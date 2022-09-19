@@ -48,7 +48,7 @@ namespace WindowsFormsApp1
 
             physicalMonitors = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor());
             double qq = DisplayConfiguration.GetMonitorBrightness(physicalMonitors[0]) * 100;
-            Console.WriteLine(qq);
+            textBox3.Text = qq.ToString();
 
         }
 
@@ -58,6 +58,16 @@ namespace WindowsFormsApp1
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
         {
 
         }
