@@ -136,13 +136,17 @@ namespace WindowsFormsApp1
         #endregion
 
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox1;
+        
         private Panel panel1;
+
+        private TextBox textBox1;
         private TextBox textBox2;
+        private TextBox textBox3;
+
         private Label label1;
         private Label label2;
         private Label label3;
-        private TextBox textBox3;
+        
 
         public TextBox TextBox1 { get => textBox1; set => textBox1 = value; }
         public TextBox TextBox2 { get => textBox2; set => textBox2 = value; }

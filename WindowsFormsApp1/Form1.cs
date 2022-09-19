@@ -47,7 +47,23 @@ namespace WindowsFormsApp1
                 Color target = new Color();
                 target = Color.FromArgb((int)color[0], (int)color[1], (int)color[2]);
                 Panel1.BackColor = target;
-                textBox2.Text = target.GetBrightness().ToString();
+                float brightnessFromScreenshot = target.GetBrightness();
+                TextBox2.Text = brightnessFromScreenshot.ToString();
+
+                double brightnessFromScreen = libs.getScreenColor();
+                Console.WriteLine(brightnessFromScreen.ToString());
+                /*gamma <= 256 && gamma >= 1*/
+                int factor = 256 - ((int)(brightnessFromScreenshot * 256));
+                /*Console.WriteLine("brightnessFromScreenshot");
+                Console.WriteLine(brightnessFromScreenshot);
+                Console.WriteLine(factor);*/
+                libs.SetGamma(factor);
+                Console.WriteLine("\nDone! Press any key to exit...");
+
+                physicalMonitors = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor());
+                double brightnessFromMonitor = DisplayConfiguration.GetMonitorBrightness(physicalMonitors[0]) * 100;
+                TextBox3.Text = brightnessFromMonitor.ToString();
+
                 Console.WriteLine(string.Format("State refreshed. {0}\n", DateTime.Now));
             });
             Invoke(reportProgress);
@@ -57,21 +73,8 @@ namespace WindowsFormsApp1
         {
             System.Timers.Timer aTimer = new System.Timers.Timer();
             aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            aTimer.Interval = 100;
+            aTimer.Interval = 500;
             aTimer.Enabled = true;
-
-            
-
-            double brightness = libs.getScreenColor();
-            Console.WriteLine(brightness.ToString());
-            libs.SetGamma(10);
-            Console.WriteLine("\nDone! Press any key to exit...");
-
-            physicalMonitors = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor());
-            double qq = DisplayConfiguration.GetMonitorBrightness(physicalMonitors[0]) * 100;
-            textBox3.Text = qq.ToString();
-
-
 
         }
 
