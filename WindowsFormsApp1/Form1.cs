@@ -50,8 +50,8 @@ namespace WindowsFormsApp1
                 float brightnessFromScreenshot = target.GetBrightness();
                 TextBox2.Text = brightnessFromScreenshot.ToString();
 
-                double brightnessFromScreen = libs.getScreenColor();
-                Console.WriteLine(brightnessFromScreen.ToString());
+                /*double brightnessFromScreen = libs.getScreenColor();
+                Console.WriteLine(brightnessFromScreen.ToString());*/
                 /*gamma <= 256 && gamma >= 1*/
                 int factor = 256 - ((int)(brightnessFromScreenshot * 256));
                 /*Console.WriteLine("brightnessFromScreenshot");
@@ -60,9 +60,9 @@ namespace WindowsFormsApp1
                 libs.SetGamma(factor);
                 Console.WriteLine("\nDone! Press any key to exit...");
 
-                physicalMonitors = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor());
+                /*physicalMonitors = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor());
                 double brightnessFromMonitor = DisplayConfiguration.GetMonitorBrightness(physicalMonitors[0]) * 100;
-                TextBox3.Text = brightnessFromMonitor.ToString();
+                TextBox3.Text = brightnessFromMonitor.ToString();*/
 
                 Console.WriteLine(string.Format("State refreshed. {0}\n", DateTime.Now));
             });
