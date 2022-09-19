@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static WindowsFormsApp1.libs;
 
 namespace WindowsFormsApp1
 {
@@ -76,6 +77,8 @@ namespace WindowsFormsApp1
                 }
             }
 
+            source.UnlockBits(bitmapData);
+
             // Flush left-over's.
             totals[0] += sumRR00BB >> 16;
             totals[1] += sum00GG00 >> 8;
@@ -85,8 +88,6 @@ namespace WindowsFormsApp1
             totals[0] /= (uint)pixelCount;
             totals[1] /= (uint)pixelCount;
             totals[2] /= (uint)pixelCount;
-
-            source.UnlockBits(bitmapData);
 
             return totals;
         }
@@ -134,6 +135,11 @@ namespace WindowsFormsApp1
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr GetDC(IntPtr hWnd);
 
+        /*
+         * [DllImport("user32.dll", EntryPoint = "GetDesktopWindow")]
+         * static extern IntPtr GetDesktopWindow();
+        */
+
         [DllImport("gdi32.dll")]
         public static extern bool SetDeviceGammaRamp(IntPtr hDC, ref RAMP lpRamp);
 
@@ -173,22 +179,21 @@ namespace WindowsFormsApp1
 
 
 
-        public static Color getScreenColor()
+        public static double getScreenColor()
         {
-            RAMP r = new RAMP();
+            RAMP ramp = new RAMP();
             int overflow = 2;
-            bool success = GetDeviceGammaRamp(GetDC(IntPtr.Zero), ref r);
-
+            bool success = GetDeviceGammaRamp(GetDC(IntPtr.Zero), ref ramp);
             Console.WriteLine(success);
 
-            return Color.FromArgb(r.Red[0], r.Green[0], r.Blue[0]);
+            return (double)ramp.Red[1] - 128;
         }
 
 
         public static Bitmap TakeScreenshot(string filePath = null)
         {
             var bounds = Screen.PrimaryScreen.Bounds;
-            var bmp = new Bitmap(bounds.Width, bounds.Height);
+            var bmp = new Bitmap(bounds.Width, bounds.Height, PixelFormat.Format32bppArgb);
 
             using (var g = Graphics.FromImage(bmp))
             {
@@ -197,7 +202,7 @@ namespace WindowsFormsApp1
             }
 
 
-            if (filePath != null) bmp.Save(filePath);
+            /*if (filePath != null) bmp.Save(filePath);*/
 
             return bmp;
         }
