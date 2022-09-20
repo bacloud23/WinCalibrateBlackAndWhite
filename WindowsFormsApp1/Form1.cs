@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp1
 {
+
     public partial class Form1 : Form
     {
         static TimeSpan HIDING_DELAY = TimeSpan.FromSeconds(5);
@@ -29,7 +31,6 @@ namespace WindowsFormsApp1
         {
 
         }
-
 
         private void OnTimedEvent(object state, System.Timers.ElapsedEventArgs e)
         {
@@ -50,14 +51,20 @@ namespace WindowsFormsApp1
                 float brightnessFromScreenshot = target.GetBrightness();
                 TextBox2.Text = brightnessFromScreenshot.ToString();
 
-                /*double brightnessFromScreen = libs.getScreenColor();
-                Console.WriteLine(brightnessFromScreen.ToString());*/
+                double brightnessFromScreen = libs.getScreenColor();
+                libs.RAMP rAMP = libs._GetDeviceGammaRamp();
+                Console.WriteLine("brightnessFromScreen " + brightnessFromScreen.ToString());
                 /*gamma <= 256 && gamma >= 1*/
                 int factor = 256 - ((int)(brightnessFromScreenshot * 256));
                 /*Console.WriteLine("brightnessFromScreenshot");
                 Console.WriteLine(brightnessFromScreenshot);
                 Console.WriteLine(factor);*/
                 libs.SetGamma(factor);
+                libs.SetGammaByRamp(rAMP);
+                brightnessFromScreen = libs.getScreenColor();
+                // We can see that brightness from screen changes from the original above after setting Gamma factor !
+                // TODO: This is why we need to save & recover original value
+                Console.WriteLine("brightnessFromScreen " + brightnessFromScreen.ToString());
                 Console.WriteLine("\nDone! Press any key to exit...");
 
                 /*physicalMonitors = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor());

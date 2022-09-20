@@ -177,7 +177,19 @@ namespace WindowsFormsApp1
             }
         }
 
+        public static void SetGammaByRamp(RAMP ramp)
+        {
+            SetDeviceGammaRamp(GetDC(IntPtr.Zero), ref ramp);
+        }
 
+        public static RAMP _GetDeviceGammaRamp()
+        {
+            RAMP ramp = new RAMP();
+            bool success = GetDeviceGammaRamp(GetDC(IntPtr.Zero), ref ramp);
+            Console.WriteLine(success);
+
+            return ramp;
+        }
 
         public static double getScreenColor()
         {
